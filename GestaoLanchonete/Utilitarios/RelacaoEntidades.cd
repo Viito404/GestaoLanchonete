@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GestaoLanchonete.Módulo_Mesas.EntidadeMesa" Collapsed="true">
+    <Position X="1" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAEAAIAAAAAACAAAAACAAAQQAABAAAAAg=</HashCode>
+      <FileName>Módulo Mesas\EntidadeMesa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestaoLanchonete.Módulo_Garçom.EntidadeGarcom" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABEAAAAQKAAACCgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Módulo Garçom\EntidadeGarcom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestaoLanchonete.Módulo_Produtos.EntidadeProduto" Collapsed="true">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAUAAAAFFAAAAAQAAACAAAAAAAAAAAAAEAAAABA=</HashCode>
+      <FileName>Módulo Produtos\EntidadeProduto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GestaoLanchonete.Compartilhado.EntidadeBase&lt;TEntidade&gt;" Collapsed="true">
+    <Position X="5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAACAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Compartilhado\EntidadeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
