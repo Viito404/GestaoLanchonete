@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GestaoLanchonete.Compartilhado
+﻿namespace GestaoLanchonete.Compartilhado
 {
      internal class RepositorioBase<TEntidade> //Passado por parâmetro o tipo da entidade.
           where TEntidade : EntidadeBase<TEntidade> //where afirma que TEntidade herda atributos e métodos de EntidadeBase.
@@ -21,11 +13,7 @@ namespace GestaoLanchonete.Compartilhado
           /// <returns>O objeto do tipo TEntidade ou null.</returns>
           public virtual TEntidade SelecionarPorID(int id)
           {
-               TEntidade registroSelecionado = null;
-               //TEntidade registroSelecionado = entidades.Find(a => a.id == id);
-
-                
-               return registroSelecionado;
+               return dados.Find(a => a.id == id);
           }
 
           /// <summary>

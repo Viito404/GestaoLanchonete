@@ -3,11 +3,6 @@ using GestaoLanchonete.Módulo_Garçom;
 using GestaoLanchonete.Módulo_Mesas;
 using GestaoLanchonete.Módulo_Produtos;
 using GestaoLanchonete.Utilitarios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestaoLanchonete
 {
@@ -57,7 +52,7 @@ namespace GestaoLanchonete
                     return telaMesa;
 
                else if (opcao == "4")
-                    return telaconta;
+                    return telaConta;
 
                if (opcao == "0")
                          return null;

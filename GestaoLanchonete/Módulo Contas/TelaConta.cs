@@ -1,13 +1,7 @@
-﻿using GestaoLanchonete.Compartilhado;
-using GestaoLanchonete.Módulo_Garçom;
+﻿using GestaoLanchonete.Módulo_Garçom;
 using GestaoLanchonete.Módulo_Mesas;
 using GestaoLanchonete.Módulo_Produtos;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestaoLanchonete.Módulo_Contas
 {
@@ -56,8 +50,10 @@ namespace GestaoLanchonete.Módulo_Contas
                     return;
                }
 
+               
                repositorioBase.Inserir(conta);
                AdicionarPedidos(conta);
+               conta.AbrirConta();
                MensagemSucesso("\nConta aberta com sucesso!");
           }
 
@@ -75,7 +71,7 @@ namespace GestaoLanchonete.Módulo_Contas
 
                conta.FecharConta();
 
-               MensagemSucesso("Conta fechada com sucesso!");
+               MensagemSucesso("\nConta fechada com sucesso!");
           }
 
           public void RegistrarPedidos()
@@ -93,7 +89,7 @@ namespace GestaoLanchonete.Módulo_Contas
                EntidadeConta conta = BuscarRegistro("Digite o id da Conta: ");
 
                Console.Clear();
-               Console.Write("\n[1] Adicionar Pedidos;\n[2] Remover Pedidos;\n\n[Outro] Sair.\n> ");
+               Console.Write("[1] Adicionar Pedidos;\n[2] Remover Pedidos;\n\n[Outro] Sair.\n> ");
                string opcao = Console.ReadLine();
 
                if (opcao == "1")
@@ -108,8 +104,7 @@ namespace GestaoLanchonete.Módulo_Contas
                Console.Clear();
                MensagemNotificacao("Visualizando faturamento do dia...\n");
 
-               Console.WriteLine("\nEntre com a data: ");
-               DateTime data = Convert.ToDateTime(Console.ReadLine());
+               DateTime data = Verificar("Entre com a data", TiposVerificacoes.tipoData);
 
                List<EntidadeConta> contasFechadas = repositorioConta.SelecionarContasFechadas(data);
 
@@ -145,29 +140,31 @@ namespace GestaoLanchonete.Módulo_Contas
 
                MostrarTabela(contasAbertas);
 
-               if(visualizacao)
-               Console.ReadLine();
+               if (visualizacao)
+                    Console.ReadLine();
 
                return contasAbertas.Count > 0;
           }
 
           private void AdicionarPedidos(EntidadeConta conta)
           {
-               Console.Write("\n[S] ou [N] para selecionar produtos:\n> ");
+               Console.Write("\n[S] para selecionar produtos;\n[Outro] para sair.\n> ");
                string opcao = Console.ReadLine().ToUpper();
 
-               while (opcao == "s")
+               while (opcao == "S")
                {
+                    Console.Clear();
+                    MensagemNotificacao($"Visualizando Produtos...\n");
                     EntidadeProduto produto = ObterProduto();
 
-                    int quantidade = VerificarInt("Digite a quantidade");
+                    int quantidade = Verificar("Digite a quantidade", TiposVerificacoes.tipoInt);
 
                     conta.RegistrarPedidos(produto, quantidade);
 
-                    MensagemSucesso("Pedido realizado com sucesso!");
+                    MensagemSucesso("\nPedido realizado com sucesso!");
 
                     Console.Write("\nSelecionar mais produtos? [S] ou [N]:\n> ");
-                    opcao = Console.ReadLine();
+                    opcao = Console.ReadLine().ToUpper();
                }
           }
 
@@ -180,23 +177,30 @@ namespace GestaoLanchonete.Módulo_Contas
                     MensagemAlerta("Nenhum pedido cadastrado para esta conta!");
                     return;
                }
+
+               conta.RemoverPedidos();
+               MensagemAlerta("\nÚltimo pedido removido!");
           }
 
           protected override void MostrarTabela(List<EntidadeConta> registros)
           {
-               Console.BackgroundColor = ConsoleColor.DarkYellow;
-               Console.ForegroundColor = ConsoleColor.White;
-               Console.WriteLine("| {0, -5} | {1, -25} | {2, -20} | ", "Id", "Número Mesa", "Nome Garçom");
-               Console.ResetColor();
-
                foreach (EntidadeConta conta in registros)
                {
-                    Console.WriteLine("| {0, -5} | {1, -25} | {2, -20} | ", conta.id, conta.Mesa.NumeroMesa, conta.Garcom.NomeGarcom);
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("| {0, -5} | {1, -25} | {2, -25} |", "Id", "Número Mesa", "Nome Garçom");
+                    Console.ResetColor();
+                    Console.WriteLine("| {0, -5} | {1, -25} | {2, -25} |", conta.id, conta.Mesa.NumeroMesa, conta.Garcom.NomeGarcom);
+                    Console.BackgroundColor = ConsoleColor.DarkYellow;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("\n| {0, -20} | {1, -10} |", "Produto", "QTD");
+                    Console.ResetColor();
 
                     foreach (Pedidos pedido in conta.Pedidos)
                     {
-                         Console.WriteLine("| {0, -5} | {1, -25} | ", pedido.produto.NomeProduto, pedido.quantidadeProduto);
+                         Console.WriteLine("| {0, -20} | {1, -10} |", pedido.produto.NomeProduto, pedido.quantidadeProduto);
                     }
+                    Console.WriteLine("\n\n");
                }
           }
 
@@ -204,8 +208,7 @@ namespace GestaoLanchonete.Módulo_Contas
           {
                EntidadeMesa mesa = ObterMesa();
                EntidadeGarcom garcom = ObterGarcom();
-               DateTime dataAbertura = VerificarData("\nEntre com a data de abertura");
-
+               DateTime dataAbertura = Verificar("\nEntre com a data de abertura", TiposVerificacoes.tipoData);              
                return new EntidadeConta(mesa, garcom, dataAbertura);
           }
 
@@ -231,7 +234,7 @@ namespace GestaoLanchonete.Módulo_Contas
           {
                telaMesa.VisualizarRegistros(false);
                EntidadeMesa mesa = telaMesa.BuscarRegistro($"\nEntre com a id da mesa");
-               Console.WriteLine();
+               Console.WriteLine();               
                return mesa;
           }
 

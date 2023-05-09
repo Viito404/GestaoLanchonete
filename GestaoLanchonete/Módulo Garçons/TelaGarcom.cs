@@ -1,12 +1,4 @@
-﻿using GestaoLanchonete.Compartilhado;
-using GestaoLanchonete.Módulo_Mesas;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GestaoLanchonete.Módulo_Garçom
+﻿namespace GestaoLanchonete.Módulo_Garçom
 {
      internal class TelaGarcom : TelaBase<RepositorioGarcom, EntidadeGarcom>
      {
@@ -22,7 +14,7 @@ namespace GestaoLanchonete.Módulo_Garçom
           {
                Console.BackgroundColor = ConsoleColor.DarkGreen;
                Console.ForegroundColor = ConsoleColor.White;
-               Console.WriteLine("| {0, -5} | {1, -25} | {2, -20} | {3, -20} | ", "Id", "Nome", "CPF", "Telefone");
+               Console.WriteLine("| {0, -5} | {1, -25} | {2, -20} | {3, -20} |", "Id", "Nome", "CPF", "Telefone");
                Console.ResetColor();
 
                foreach (EntidadeGarcom garcom in registros)
@@ -33,9 +25,9 @@ namespace GestaoLanchonete.Módulo_Garçom
 
           protected override EntidadeGarcom ObterRegistro()
           {
-               string nomeGarcom = VerificarString("Entre com o nome do garçom");
-               string cpfGarcom = VerificarString("\nEntre com o CPF do garçom");
-               string telefoneGarcom = VerificarString("\nEntre com o telefone do garçom");
+               string nomeGarcom = Verificar("Entre com o nome do garçom", TiposVerificacoes.tipoString);
+               string cpfGarcom = Verificar("\nEntre com o CPF do garçom", TiposVerificacoes.tipoString);
+               string telefoneGarcom = Verificar("\nEntre com o telefone do garçom", TiposVerificacoes.tipoString);
                return new EntidadeGarcom(nomeGarcom, cpfGarcom, telefoneGarcom);
           }
      }

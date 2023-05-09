@@ -1,20 +1,13 @@
-﻿using GestaoLanchonete.Compartilhado;
-using GestaoLanchonete.Módulo_Garçom;
+﻿using GestaoLanchonete.Módulo_Garçom;
 using GestaoLanchonete.Módulo_Mesas;
 using GestaoLanchonete.Módulo_Produtos;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestaoLanchonete.Módulo_Contas
 {
      internal class EntidadeConta : EntidadeBase<EntidadeConta>
      {
           private EntidadeMesa mesa;
-          private ArrayList pedidos;
+          private List<Pedidos> pedidos;
           private EntidadeGarcom garcom;
           private bool estaAberta;
           private DateTime dataAbertura;
@@ -25,8 +18,8 @@ namespace GestaoLanchonete.Módulo_Contas
                this.garcom = garcom;
                this.dataAbertura = dataAbertura;
 
-               pedidos = new ArrayList();
-               AbrirConta();
+               pedidos = new List<Pedidos>();
+               
           }
 
           public void AbrirConta()
@@ -47,19 +40,17 @@ namespace GestaoLanchonete.Módulo_Contas
                pedidos.Add(pedido);
           }
 
-          public decimal CalcularValorTotal()
+          public void RemoverPedidos()
           {
-               decimal total = 0;
-
-               foreach (Pedidos pedido in pedidos)
-               {
-                    decimal totalPedido = pedido.CalcularTotalParcial();
-                    total += totalPedido;
-               }
-               return total;
+               pedidos.RemoveAt(pedidos.Count - 1);
           }
 
-          public ArrayList Pedidos { get => pedidos; set => pedidos = value; }
+          public decimal CalcularValorTotal()
+          {
+               return pedidos.Sum(p => p.CalcularTotalParcial());
+          }
+
+          public List<Pedidos> Pedidos { get => pedidos; set => pedidos = value; }
           public DateTime DataAbertura { get => dataAbertura; set => dataAbertura = value; }
           internal EntidadeMesa Mesa { get => mesa; set => mesa = value; }
           internal EntidadeGarcom Garcom { get => garcom; set => garcom = value; }
@@ -81,6 +72,9 @@ namespace GestaoLanchonete.Módulo_Contas
 
                if (mesa == null)
                     listaErros.Add("\nO campo \"mesa\" é obrigatório!");
+
+               if (mesa.DisponibilidadeMesa == false)
+                    listaErros.Add("\nA mesa já está ocupada!");
 
                return listaErros;
           }

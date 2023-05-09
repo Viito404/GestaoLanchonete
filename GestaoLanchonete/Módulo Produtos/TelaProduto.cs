@@ -1,11 +1,4 @@
-﻿using GestaoLanchonete.Compartilhado;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GestaoLanchonete.Módulo_Produtos
+﻿namespace GestaoLanchonete.Módulo_Produtos
 {
      internal class TelaProduto : TelaBase<RepositorioProduto, EntidadeProduto>
      {
@@ -32,10 +25,10 @@ namespace GestaoLanchonete.Módulo_Produtos
 
           protected override EntidadeProduto ObterRegistro()
           {
-               string nomeProduto = VerificarString("Entre com o nome do produto");
-               string marcaProduto = VerificarString("\nEntre com a marca do produto");
-               string unidadesMedida = VerificarString("\nEntre com as unidades de medidas");
-               decimal precoProduto = VerificarDecimal("\nEntre com o preço do produto");
+               string nomeProduto = Verificar("Entre com o nome do produto", TiposVerificacoes.tipoString);
+               string marcaProduto = Verificar("\nEntre com a marca do produto", TiposVerificacoes.tipoString);
+               string unidadesMedida = Verificar("\nEntre com as unidades de medidas", TiposVerificacoes.tipoString);
+               decimal precoProduto = Verificar("\nEntre com o preço do produto", TiposVerificacoes.tipoDecimal);
 
                return new EntidadeProduto(nomeProduto, marcaProduto, unidadesMedida, precoProduto);
           }

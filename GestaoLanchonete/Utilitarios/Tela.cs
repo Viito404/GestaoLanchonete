@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GestaoLanchonete.Utilitarios
+﻿namespace GestaoLanchonete.Utilitarios
 {
      internal class Tela
      {
@@ -100,100 +94,94 @@ namespace GestaoLanchonete.Utilitarios
           {
                Erro, Sucesso, Alerta, Notificacao, Apresentacao
           }
-
-          public virtual string VerificarString(string mensagem)
+          public virtual dynamic Verificar(string mensagem, TiposVerificacoes tipo)
           {
-               string value = null;
-
-               do
-               {
-                    Console.WriteLine(mensagem);
-                    Console.Write("> ");
-                    value = Console.ReadLine();
-
-                    if (string.IsNullOrEmpty(value.Trim()))
-                         MensagemErro("Campo obrigatório!");
-                    
-
-               } while (string.IsNullOrEmpty(value.Trim()));
-
-               return value;
-          }
-
-          public virtual decimal VerificarDecimal(string mensagem)
-          {
-               decimal value = 0;
+               var valor = 0;
                bool numeroInvalido = false;
-
-               do
+               switch (tipo)
                {
-                    numeroInvalido = false;
-                    try
-                    {
-                         Console.WriteLine(mensagem);
-                         Console.Write("> ");
-                         value = Convert.ToDecimal(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                         MensagemErro("\nCampo tem formato inválido!");
-                         numeroInvalido = true;
-                    }
+                    case TiposVerificacoes.tipoString:
+                         string texto;
+                         do
+                         {
+                              Console.WriteLine(mensagem);
+                              Console.Write("> ");
+                              texto = Console.ReadLine();
 
-               } while (numeroInvalido);
+                              if (string.IsNullOrEmpty(texto.Trim()))
+                                   MensagemErro("Campo obrigatório!");
 
-               return value;
+
+                         } while (string.IsNullOrEmpty(texto.Trim()));
+                         return texto;
+
+                    case TiposVerificacoes.tipoInt:
+                         int valorint = 0;
+                         do
+                         {
+                              numeroInvalido = false;
+                              try
+                              {
+                                   Console.WriteLine(mensagem);
+                                   Console.Write("> ");
+                                   valorint = Convert.ToInt32(Console.ReadLine());
+                              }
+                              catch (FormatException)
+                              {
+                                   MensagemErro("\nCampo tem formato inválido!");
+                                   numeroInvalido = true;
+                              }
+
+                         } while (numeroInvalido);
+                         return valorint;
+
+                    case TiposVerificacoes.tipoDecimal:
+                         decimal valordecimal = 0;
+                         do
+                         {
+                              numeroInvalido = false;
+                              try
+                              {
+                                   Console.WriteLine(mensagem);
+                                   Console.Write("> ");
+                                   valordecimal = Convert.ToDecimal(Console.ReadLine());
+                              }
+                              catch (FormatException)
+                              {
+                                   MensagemErro("\nCampo tem formato inválido!");
+                                   numeroInvalido = true;
+                              }
+
+                         } while (numeroInvalido);
+                         return valordecimal;
+
+                    case TiposVerificacoes.tipoData:
+                         DateTime value;
+                         value = DateTime.Now;
+                         do
+                         {
+                              numeroInvalido = false;
+                              try
+                              {
+                                   Console.WriteLine(mensagem);
+                                   Console.Write("> ");
+                                   value = Convert.ToDateTime(Console.ReadLine());
+                              }
+                              catch (FormatException)
+                              {
+                                   MensagemErro("\nCampo tem formato inválido!");
+                                   numeroInvalido = true;
+                              }
+
+                         } while (numeroInvalido);
+                         return value;
+               }
+
+               return valor;
           }
-
-          public virtual int VerificarInt(string mensagem)
+          public enum TiposVerificacoes
           {
-               int value = 0;
-               bool numeroInvalido = false;
-
-               do
-               {
-                    numeroInvalido = false;
-                    try
-                    {
-                         Console.WriteLine(mensagem);
-                         Console.Write("> ");
-                         value = Convert.ToInt32(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                         MensagemErro("\nCampo tem formato inválido!");
-                         numeroInvalido = true;
-                    }
-
-               } while (numeroInvalido);
-
-               return value;
-          }
-
-          public virtual DateTime VerificarData(string mensagem)
-          {
-               DateTime value;
-               value = DateTime.Now;
-               bool numeroInvalido = false;
-
-               do
-               {
-                    numeroInvalido = false;
-                    try
-                    {
-                         Console.WriteLine(mensagem);
-                         Console.Write("> ");
-                         value = Convert.ToDateTime(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                         MensagemErro("\nCampo tem formato inválido!");
-                         numeroInvalido = true;
-                    }
-
-               } while (numeroInvalido);
-
-               return value;
+               tipoString, tipoInt, tipoDecimal, tipoData
           }
      }
 }

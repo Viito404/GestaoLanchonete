@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GestaoLanchonete.Compartilhado
+﻿namespace GestaoLanchonete.Compartilhado
 {
      internal abstract class EntidadeBase<TEntidade> //Passado por parâmetro o tipo da entidade.
      {
